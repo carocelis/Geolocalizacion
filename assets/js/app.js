@@ -1,4 +1,3 @@
-
 var map;
 var infowindow;
 var positionMap;
@@ -9,6 +8,20 @@ function initMap() {
     center: {lat: -33.472, lng: -70.647},
     zoom: 15
   });
+
+  var markerIco = {
+    url: "assets/img/bicycle-rider.png",
+    scaledSize: new google.maps.Size(45, 45)
+  };
+
+  var marker = new google.maps.Marker({
+    map: map,
+    draggable: true,
+    icon: markerIco,
+    animation: google.maps.Animation.DROP,
+    position: positionMap
+  });
+
   var infoWindow = new google.maps.InfoWindow({map: map});
   document.getElementById('btn-findMe').addEventListener('click', findMe);
   // Try HTML5 geolocation.
@@ -19,20 +32,17 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      var marker = new google.maps.Marker({
-          position: pos,
-          map: map
-        });
+      marker.setPosition(pos);
       //infoWindow.setPosition(pos);
-      infoWindow.setContent(marker);
+      //infoWindow.setContent(marker);
       map.setCenter(pos);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
   }
   
   new Autocomplete(map);
@@ -58,13 +68,6 @@ function Autocomplete(map) {
 
 }
 
-function createMarker(positionMap, map) {
-  let marker = new google.maps.Marker({
-    map: map,
-    position: positionMap,
-  });
-}
-
 function rute () {
 
   var request = {
@@ -77,7 +80,6 @@ function rute () {
   map = new google.maps.Map($('#'+d_map).get(0));
 
   map.setCenter(positionMap);
-  createMarker(positionMap, map);
 
   directionsDisplay = new google.maps.DirectionsRenderer();
   directionsService = new google.maps.DirectionsService();

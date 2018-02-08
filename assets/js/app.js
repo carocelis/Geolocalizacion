@@ -19,9 +19,12 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
+      var marker = new google.maps.Marker({
+          position: pos,
+          map: map
+        });
+      //infoWindow.setPosition(pos);
+      infoWindow.setContent(marker);
       map.setCenter(pos);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -92,54 +95,3 @@ function rute () {
 
 
 
-
-
-
-      // Sets a listener on a radio button to change the filter type on Places
-      // Autocomplete.
-      /*AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
-        var radioButton = document.getElementById(id);
-        var me = this;
-        radioButton.addEventListener('click', function() {
-          me.travelMode = mode;
-          me.route();
-        });
-      };
-
-      AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
-        var me = this;
-        autocomplete.bindTo('bounds', this.map);
-        autocomplete.addListener('place_changed', function() {
-          var place = autocomplete.getPlace();
-          if (!place.place_id) {
-            window.alert("Please select an option from the dropdown list.");
-            return;
-          }
-          if (mode === 'ORIG') {
-            me.originPlaceId = place.place_id;
-          } else {
-            me.destinationPlaceId = place.place_id;
-          }
-          me.route();
-        });
-
-      };
-
-      AutocompleteDirectionsHandler.prototype.route = function() {
-        if (!this.originPlaceId || !this.destinationPlaceId) {
-          return;
-        }
-        var me = this;
-
-        this.directionsService.route({
-          origin: {'placeId': this.originPlaceId},
-          destination: {'placeId': this.destinationPlaceId},
-          travelMode: this.travelMode
-        }, function(response, status) {
-          if (status === 'OK') {
-            me.directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-      };*/
